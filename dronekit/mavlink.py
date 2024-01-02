@@ -127,7 +127,7 @@ class MAVConnection(object):
         if ip.startswith("udpin:"):
             self.master = mavudpin_multi(ip[6:], input=True, baud=baud, source_system=source_system, source_component=source_component)
         else:
-            self.master = mavutil.mavlink_connection(ip, baud=baud, source_system=source_system, source_component=source_component)
+            self.master = mavutil.mavlink_connection(ip, baud=baud, source_system=source_system, source_component=source_component, autoreconnect=True)
 
         # TODO get rid of "master" object as exposed,
         # keep it private, expose something smaller for dronekit
