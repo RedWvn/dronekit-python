@@ -1279,7 +1279,7 @@ class Vehicle(HasObservers):
             if not self._wp_loaded:
                 self._wploader.clear()
                 self._wploader.expected_count = msg.count
-                self._master.waypoint_request_send(0)
+                self._master.mav.mission_request_int_send(self._master.target_system, self._master.target_component, 0)
 
         @self.on_message(['HOME_POSITION'])
         def listener(self, name, msg):
@@ -1303,7 +1303,7 @@ class Vehicle(HasObservers):
                     self._wploader.add(msg)
 
                     if msg.seq + 1 < self._wploader.expected_count:
-                        self._master.waypoint_request_int_send(msg.seq + 1)
+                        self._master.mav.mission_request_int_send(self._master.target_system, self._master.target_component, msg.seq + 1)
                     else:
                         self._wp_loaded = True
                         self.notify_attribute_listeners('commands', self.commands)
